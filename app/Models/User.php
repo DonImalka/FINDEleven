@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'status',
+        'district',
     ];
 
     /**
@@ -44,5 +47,53 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the player profile associated with the user.
+     */
+    public function playerProfile()
+    {
+        return $this->hasOne(PlayerProfile::class);
+    }
+
+    /**
+     * Get the organization associated with the user.
+     */
+    public function organization()
+    {
+        return $this->hasOne(Organization::class);
+    }
+
+    /**
+     * Check if user is a player.
+     */
+    public function isPlayer(): bool
+    {
+        return $this->role === 'player';
+    }
+
+    /**
+     * Check if user is an organization.
+     */
+    public function isOrganization(): bool
+    {
+        return $this->role === 'organization';
+    }
+
+    /**
+     * Check if user is an admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is active.
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
     }
 }
